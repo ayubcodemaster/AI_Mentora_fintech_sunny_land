@@ -39,13 +39,10 @@ export const drawRect = (detections: Detection[], ctx: CanvasRenderingContext2D)
 
     const { originX, originY, width, height } = prediction.boundingBox;
 
-    // Asl ma'lumotlarni olamiz
     const category = prediction.categories[0];
     let label = category ? category.categoryName.toLowerCase() : "noma'lum";
     let score = category ? Math.round(category.score * 100) : 0;
 
-    // --- MAPPING (Nomni almashtirish qismi) ---
-    // Qaysi xato so'zlarni "Suv idishi"ga aylantirmoqchisiz?
     const mapping: { [key: string]: string } = {
       'surfboard': 'Suv idishi',
       'handbag': 'Suv idishi',
@@ -55,26 +52,20 @@ export const drawRect = (detections: Detection[], ctx: CanvasRenderingContext2D)
       'potted plant': 'Idishdagi gul'
     };
 
-    // Agar ro'yxatda bo'lsa, nomini o'zgartiramiz
     if (mapping[label]) {
       label = mapping[label];
     }
-    // -------------------------------------------
 
-    // Matnni tayyorlash
     const text = `${label} ${score}%`;
 
-    // Rang tanlash: Agar "Suv idishi" bo'lsa ko'k, boshqasi yashil
     const color = label === 'Suv idishi' ? '#00BFFF' : '#00FF00';
 
-    // 1. To'rtburchak chizish
     ctx.strokeStyle = color;
     ctx.lineWidth = 4;
     ctx.beginPath();
     ctx.roundRect(originX, originY, width, height, 10);
     ctx.stroke();
 
-    // 2. Matn foni
     ctx.font = 'bold 30px Arial';
     const textWidth = ctx.measureText(text).width;
     const textHeight = 30;
@@ -82,7 +73,6 @@ export const drawRect = (detections: Detection[], ctx: CanvasRenderingContext2D)
     ctx.fillStyle = color;
     ctx.fillRect(originX, originY - textHeight - 10, textWidth + 10, textHeight + 10);
 
-    // 3. Matnni o'zi
     ctx.fillStyle = 'black';
     ctx.fillText(text, originX + 5, originY - 10);
   });
