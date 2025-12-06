@@ -6,6 +6,10 @@ using UnityEngine.InputSystem;
 
 namespace AIMentora
 {
+    /// <summary>
+    /// Main player controller handling movement, input, inventory, and interactions.
+    /// Supports both keyboard/mouse and mobile touch controls.
+    /// </summary>
     public class PlayerController : MonoBehaviour
     {
         public InputActionAsset InputAction;
